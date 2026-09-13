@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Oathmark Target Number Calculator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Oathmark Target Number</h1>
+  <div class="mode-toggle" role="tablist">
+    <button type="button" class="mode-btn active" data-mode="melee" role="tab" aria-selected="true">Melee</button>
+    <button type="button" class="mode-btn" data-mode="shooting" role="tab" aria-selected="false">Shooting</button>
+    <button type="button" class="mode-btn" data-mode="artillery" role="tab" aria-selected="false">Artillery</button>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Stats</h2>
+    <div class="stat-row">
+      <label for="attackStat"><span class="tag tag-you">You</span> <span class="attack-stat-label">Fight</span> stat</label>
+      <div class="stepper">
+        <button type="button" class="step-btn" data-target="attackStat" data-step="-1" aria-label="Decrease">−</button>
+        <input type="number" id="attackStat" inputmode="numeric" min="0" value="3">
+        <button type="button" class="step-btn" data-target="attackStat" data-step="1" aria-label="Increase">+</button>
+      </div>
+    </div>
+    <div class="stat-row">
+      <label for="defenseStat"><span class="tag tag-enemy">Enemy</span> Defense stat</label>
+      <div class="stepper">
+        <button type="button" class="step-btn" data-target="defenseStat" data-step="-1" aria-label="Decrease">−</button>
+        <input type="number" id="defenseStat" inputmode="numeric" min="0" value="6">
+        <button type="button" class="step-btn" data-target="defenseStat" data-step="1" aria-label="Increase">+</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Modifiers</h2>
+    <div id="melee-modifiers" class="modifier-group">
+      <div class="mod-section mod-section-you">
+        <h3 class="mod-section-title"><span class="tag tag-you">You</span> Your unit</h3>
+        <div class="mod-inputs">
+          <div class="rank-row">
+            <label for="meleeRanks">Full ranks after the first</label>
+            <div class="stepper">
+              <button type="button" class="step-btn" data-target="meleeRanks" data-step="-1" aria-label="Decrease">−</button>
+              <input type="number" id="meleeRanks" inputmode="numeric" min="0" value="0">
+              <button type="button" class="step-btn" data-target="meleeRanks" data-step="1" aria-label="Increase">+</button>
+            </div>
+          </div>
+          <div class="rank-row">
+            <label for="meleeOther">Other modifier <span class="hint-inline">(Charge, magic items, spells, etc.)</span></label>
+            <div class="stepper">
+              <button type="button" class="step-btn" data-target="meleeOther" data-step="-1" aria-label="Decrease">−</button>
+              <input type="number" id="meleeOther" inputmode="numeric" value="0">
+              <button type="button" class="step-btn" data-target="meleeOther" data-step="1" aria-label="Increase">+</button>
+            </div>
+          </div>
+        </div>
+        <label class="mod-check"><input type="checkbox" data-mod="-1" data-group="melee" id="melee-flankrear"><span class="mod-text">Attacking the enemy's flank or rear (−1)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee"><span class="mod-text">Already activated before being charged (+1)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee"><span class="mod-text">Attacked in your rear arc (+1)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee" id="melee-disordered"><span class="mod-text">Your unit is Disordered (+1)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee"><span class="mod-text">Fighting from lower elevation (+1)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee"><span class="mod-text">Charged an enemy behind defensive fortifications (+1)</span></label>
+      </div>
+      <p class="mod-note">Every melee modifier is about your own unit — nothing here depends on the enemy.</p>
+    </div>
+
+    <div id="shooting-modifiers" class="modifier-group hidden">
+      <div class="mod-section mod-section-you">
+        <h3 class="mod-section-title"><span class="tag tag-you">You</span> Your unit</h3>
+        <div class="mod-inputs">
+          <div class="rank-row">
+            <label for="shootRanks">Full ranks after the first</label>
+            <div class="stepper">
+              <button type="button" class="step-btn" data-target="shootRanks" data-step="-1" aria-label="Decrease">−</button>
+              <input type="number" id="shootRanks" inputmode="numeric" min="0" value="0">
+              <button type="button" class="step-btn" data-target="shootRanks" data-step="1" aria-label="Increase">+</button>
+            </div>
+          </div>
+          <div class="rank-row">
+            <label for="shootOther">Other modifier <span class="hint-inline">(Charge, magic items, spells, etc.)</span></label>
+            <div class="stepper">
+              <button type="button" class="step-btn" data-target="shootOther" data-step="-1" aria-label="Decrease">−</button>
+              <input type="number" id="shootOther" inputmode="numeric" value="0">
+              <button type="button" class="step-btn" data-target="shootOther" data-step="1" aria-label="Increase">+</button>
+            </div>
+          </div>
+        </div>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="shooting"><span class="mod-text">Used an action before shooting (+1)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="shooting" id="shoot-disordered"><span class="mod-text">Your unit is Disordered (+1)</span></label>
+      </div>
+      <div class="mod-section mod-section-enemy">
+        <h3 class="mod-section-title"><span class="tag tag-enemy">Enemy</span> Target</h3>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="shooting" id="shoot-lightcover"><span class="mod-text">Target in light cover (+1)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="2" data-group="shooting" id="shoot-heavycover"><span class="mod-text">Target in heavy cover (+2)</span></label>
+      </div>
+    </div>
+
+    <div id="artillery-modifiers" class="modifier-group hidden">
+      <div class="mod-section mod-section-you">
+        <h3 class="mod-section-title"><span class="tag tag-you">You</span> Your unit</h3>
+        <div class="mod-inputs">
+          <div class="rank-row">
+            <label for="artilleryOther">Other modifier <span class="hint-inline">(magic items, spells, etc.)</span></label>
+            <div class="stepper">
+              <button type="button" class="step-btn" data-target="artilleryOther" data-step="-1" aria-label="Decrease">−</button>
+              <input type="number" id="artilleryOther" inputmode="numeric" value="0">
+              <button type="button" class="step-btn" data-target="artilleryOther" data-step="1" aria-label="Increase">+</button>
+            </div>
+          </div>
+        </div>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="artillery"><span class="mod-text">Used an action before shooting (+1)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="artillery" id="artillery-disordered"><span class="mod-text">Your unit is Disordered (+1)</span></label>
+      </div>
+      <div class="mod-section mod-section-enemy">
+        <h3 class="mod-section-title"><span class="tag tag-enemy">Enemy</span> Target</h3>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="artillery" id="artillery-lightcover"><span class="mod-text">Target in light cover (+1)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="2" data-group="artillery" id="artillery-heavycover"><span class="mod-text">Target in heavy cover (+2)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="5" data-group="artillery" id="artillery-unitofone"><span class="mod-text">Target is a unit-of-one <span class="hint-inline">(none if Large/Enormous)</span> (+5)</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="card hidden" id="artillery-dice-card">
+    <h2>Combat Dice</h2>
+    <div class="mod-inputs">
+      <div class="rank-row">
+        <label for="artilleryTargetRanks">Target's ranks (full or partial)</label>
+        <div class="stepper">
+          <button type="button" class="step-btn" data-target="artilleryTargetRanks" data-step="-1" aria-label="Decrease">−</button>
+          <input type="number" id="artilleryTargetRanks" inputmode="numeric" min="1" value="1">
+          <button type="button" class="step-btn" data-target="artilleryTargetRanks" data-step="1" aria-label="Increase">+</button>
+        </div>
+      </div>
+    </div>
+    <label class="mod-check"><input type="radio" name="artillerySize" value="normal" id="artillery-size-normal" checked><span class="mod-text">Target is normal size</span></label>
+    <label class="mod-check"><input type="radio" name="artillerySize" value="large" id="artillery-size-large"><span class="mod-text">Target has Large (+1 die)</span></label>
+    <label class="mod-check"><input type="radio" name="artillerySize" value="enormous" id="artillery-size-enormous"><span class="mod-text">Target has Enormous (+2 dice)</span></label>
+    <label class="mod-check"><input type="checkbox" id="artillery-dice-flank"><span class="mod-text">Firing on target's flank or rear (+2 dice) <span class="hint-inline">(no bonus if target is a unit-of-one)</span></span></label>
+    <p class="mod-note">Capped at 5 dice. Firing at another artillery piece? Treat it as 1 rank with Large, and flank/rear gives no bonus.</p>
+    <div class="tn-display" id="diceDisplay">2</div>
+    <div class="tn-breakdown" id="diceBreakdown"></div>
+  </section>
+
+  <section class="card result">
+    <h2>Target Number</h2>
+    <div class="tn-display" id="tnDisplay">6</div>
+    <div class="tn-breakdown" id="tnBreakdown"></div>
+    <div class="tn-alert hidden" id="tnAlert"></div>
+
+    <div class="hit-tiers">
+      <div class="hit-tier hit-tier-1">
+        <span class="tier-count">1 hit</span>
+        <span class="tier-roll" id="tier1">≥ 6</span>
+      </div>
+      <div class="hit-tier hit-tier-2">
+        <span class="tier-count">2 hits</span>
+        <span class="tier-roll" id="tier2">≥ 11</span>
+      </div>
+      <div class="hit-tier hit-tier-3">
+        <span class="tier-count">3 hits</span>
+        <span class="tier-roll" id="tier3">≥ 16</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
