@@ -11,6 +11,10 @@ const els = {
     artillery: document.getElementById("artillery-modifiers"),
   },
   meleeFlankRear: document.getElementById("melee-flankrear"),
+  meleeRear: document.getElementById("melee-rear"),
+  meleeFlank: document.getElementById("melee-flank"),
+  meleeRanksRow: document.getElementById("meleeRanksRow"),
+  meleeRanksStatus: document.getElementById("meleeRanksStatus"),
   tnDisplay: document.getElementById("tnDisplay"),
   tnBreakdown: document.getElementById("tnBreakdown"),
   tnAlert: document.getElementById("tnAlert"),
@@ -73,11 +77,19 @@ function calculate() {
   let modifierTotal = 0;
   let parts = [];
 
-  const flankRear = state.mode === "melee" && els.meleeFlankRear.checked;
+  const rankBonusCancelled = state.mode === "melee" && (els.meleeRear.checked || els.meleeFlank.checked);
   const ranks = config.ranksId ? Number(document.getElementById(config.ranksId).value) || 0 : 0;
-  if (ranks > 0 && !flankRear) {
+  if (ranks > 0 && !rankBonusCancelled) {
     modifierTotal += -1 * ranks;
     parts.push(`ranks -${ranks}`);
+  }
+
+  if (state.mode === "melee") {
+    els.meleeRanksRow.classList.toggle("inactive", rankBonusCancelled);
+    els.meleeRanksStatus.textContent = rankBonusCancelled ? "(not applied — your unit is being attacked at its flank/rear)" : "";
+    els.meleeRanksRow.querySelectorAll("input, button").forEach(el => {
+      el.disabled = rankBonusCancelled;
+    });
   }
 
   const other = Number(document.getElementById(config.otherId).value) || 0;
@@ -90,6 +102,7 @@ function calculate() {
     if (!cb.checked) return;
     const mod = Number(cb.dataset.mod);
     modifierTotal += mod;
+    if (mod === 0) return;
     const sign = mod > 0 ? "+" : "";
     parts.push(`${sign}${mod}`);
   });

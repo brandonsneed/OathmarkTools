@@ -43,8 +43,8 @@
       <div class="mod-section mod-section-you">
         <h3 class="mod-section-title"><span class="tag tag-you">You</span> Your unit</h3>
         <div class="mod-inputs">
-          <div class="rank-row">
-            <label for="meleeRanks">Full ranks after the first</label>
+          <div class="rank-row" id="meleeRanksRow">
+            <label for="meleeRanks">Full ranks after the first <span class="hint-inline" id="meleeRanksStatus"></span></label>
             <div class="stepper">
               <button type="button" class="step-btn" data-target="meleeRanks" data-step="-1" aria-label="Decrease">−</button>
               <input type="number" id="meleeRanks" inputmode="numeric" min="0" value="0">
@@ -62,7 +62,8 @@
         </div>
         <label class="mod-check"><input type="checkbox" data-mod="-1" data-group="melee" id="melee-flankrear"><span class="mod-text">Attacking the enemy's flank or rear (−1)</span></label>
         <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee"><span class="mod-text">Already activated before being charged (+1)</span></label>
-        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee"><span class="mod-text">Attacked in your rear arc (+1)</span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee" id="melee-rear"><span class="mod-text">Attacked in your rear arc (+1) <span class="hint-inline">(also cancels your ranks bonus)</span></span></label>
+        <label class="mod-check"><input type="checkbox" data-mod="0" data-group="melee" id="melee-flank"><span class="mod-text">Attacked in your flank <span class="hint-inline">(cancels your ranks bonus)</span></span></label>
         <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee" id="melee-disordered"><span class="mod-text">Your unit is Disordered (+1)</span></label>
         <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee"><span class="mod-text">Fighting from lower elevation (+1)</span></label>
         <label class="mod-check"><input type="checkbox" data-mod="1" data-group="melee"><span class="mod-text">Charged an enemy behind defensive fortifications (+1)</span></label>

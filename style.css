@@ -136,6 +136,11 @@ main {
   border-color: var(--step-btn-active);
 }
 
+.step-btn:disabled,
+input:disabled {
+  cursor: not-allowed;
+}
+
 .stat-row input[type="number"] {
   width: 3.2rem;
   font-size: 1.2rem;
@@ -170,6 +175,16 @@ main {
   color: var(--ink-soft);
   font-weight: 400;
   font-size: 0.85em;
+}
+
+.rank-row.inactive {
+  opacity: 0.45;
+}
+
+.rank-row.inactive .hint-inline {
+  color: var(--tier2);
+  font-weight: 600;
+  opacity: 1;
 }
 
 .mod-text {
