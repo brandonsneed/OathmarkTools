@@ -178,12 +178,23 @@ input:disabled {
 }
 
 .rank-row.inactive {
-  opacity: 0.45;
+  background: rgba(201, 138, 43, 0.14);
+  border-radius: 8px;
+  margin: 0 -0.5rem;
+  padding: 0.4rem 0.5rem;
+}
+
+.rank-row.inactive label {
+  opacity: 0.55;
+}
+
+.rank-row.inactive .stepper {
+  opacity: 0.55;
 }
 
 .rank-row.inactive .hint-inline {
   color: var(--tier2);
-  font-weight: 600;
+  font-weight: 700;
   opacity: 1;
 }
 
